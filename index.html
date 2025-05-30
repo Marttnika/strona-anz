@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ANZ PODATKi – Formularz kontaktowy</title>
-  
 
-
+  <!-- EmailJS SDK v4 -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
     body {
@@ -96,50 +96,46 @@
     <p id="confirmation"></p>
   </div>
 
- 
-<script type="module">
-  import emailjs from 'https://cdn.emailjs.com/dist/email.min.mjs';
+  <script>
+    const form = document.getElementById('contactForm');
+    const confirmation = document.getElementById('confirmation');
 
-  const form = document.getElementById('contactForm');
-  const confirmation = document.getElementById('confirmation');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
 
-    const data = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
-    };
+      try {
+        // 1. Wyślij dane do Azure Function
+        await fetch('https://anzformularzappmanual.azurewebsites.net/api/submitForm?code=U7-GWqbfsQEOdzBw4AxeWWhxZe_1ghWB-P4-KGyRbGSOAzFuHSCr_w==', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
 
-    try {
-      // 1. Wyślij do Azure Function (jeśli chcesz zachować)
-      await fetch('https://anzformularzappmanual.azurewebsites.net/api/submitForm?code=U7-GWqbfsQEOdzBw4AxeWWhxZe_1ghWB-P4-KGyRbGSOAzFuHSCr_w==', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+        // 2. Inicjalizacja EmailJS
+        emailjs.init("VFlTg8z-1RIfLjz-R");
 
-      // 2. Inicjalizacja EmailJS
-      emailjs.init("VFlTg8z-1RIfLjz-R");
+        // 3. Wysyłka wiadomości
+        await emailjs.send("service_om6pfoz", "template_knk9bj9", {
+          from_name: data.name,
+          from_email: data.email,
+          subject: data.subject,
+          message: data.message
+        });
 
-      // 3. Wysyłka wiadomości
-      await emailjs.send("service_om6pfoz", "template_knk9bj9", {
-        from_name: data.name,
-        from_email: data.email,
-        subject: data.subject,
-        message: data.message
-      });
-
-      confirmation.textContent = "Wiadomość została wysłana.";
-      form.reset();
-    } catch (error) {
-      console.error("Błąd:", error);
-      confirmation.textContent = "Wystąpił problem z wysyłką.";
-    }
-  });
-</script>
-
+        confirmation.textContent = "Wiadomość została wysłana.";
+        form.reset();
+      } catch (error) {
+        console.error("Błąd:", error);
+        confirmation.textContent = "Wystąpił problem z wysyłką.";
+      }
+    });
+  </script>
 </body>
 </html>
