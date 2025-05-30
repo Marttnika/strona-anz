@@ -4,33 +4,95 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ANZ PODATKi – Formularz kontaktowy</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1, h2, p {
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+    input, textarea, button {
+      margin-top: 5px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #confirmation {
+      margin-top: 15px;
+      text-align: center;
+      color: green;
+    }
+  </style>
 </head>
 <body>
-  <h1>ANZ PODATKi</h1>
-  <p>ul. Świętokrzyska 18, 00-052 Warszawa</p>
-  <p><a href="https://www.anzpodatki.com" target="_blank">www.anzpodatki.com</a></p>
-  <h2>Formularz kontaktowy</h2>
-  
-  <form id="contactForm">
-    <label for="name">Imię i nazwisko:</label><br/>
-    <input type="text" id="name" name="name" required><br/><br/>
+  <div class="container">
+    <h1>ANZ PODATKi</h1>
+    <p>ul. Świętokrzyska 18, 00-052 Warszawa</p>
+    <p><a href="https://www.anzpodatki.com" target="_blank">www.anzpodatki.com</a></p>
+    <h2>Formularz kontaktowy</h2>
     
-    <label for="email">E-mail:</label><br/>
-    <input type="email" id="email" name="email" required><br/><br/>
-    
-    <label for="subject">Temat:</label><br/>
-    <input type="text" id="subject" name="subject" required><br/><br/>
-    
-    <label for="message">Wiadomość:</label><br/>
-    <textarea id="message" name="message" rows="5" required></textarea><br/><br/>
-    
-    <button type="submit">Wyślij</button>
-  </form>
+    <form id="contactForm">
+      <label for="name">Imię i nazwisko:</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="subject">Temat:</label>
+      <input type="text" id="subject" name="subject" required>
+      
+      <label for="message">Wiadomość:</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+      
+      <button type="submit">Wyślij</button>
+    </form>
 
-  <p id="confirmation" style="color: green;"></p>
+    <p id="confirmation"></p>
+  </div>
 
   <script>
-    // Tymczasowy handler formularza – nie wysyła jeszcze danych, tylko pokazuje komunikat
     document.getElementById('contactForm').addEventListener('submit', function (e) {
       e.preventDefault();
       document.getElementById('confirmation').textContent = "Wiadomość została wysłana.";
