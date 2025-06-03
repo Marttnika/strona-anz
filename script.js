@@ -1,3 +1,8 @@
+import emailjs from 'https://cdn.emailjs.com/dist/email.min.mjs';
+
+// Inicjalizacja EmailJS (user ID podajesz tylko tutaj – nie w send)
+emailjs.init("VFlTg8z-1RIfLjz-R");
+
 document.getElementById("contactForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -17,11 +22,12 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
     .then(data => {
       alert("Dziękujemy! Twoja wiadomość została wysłana.");
 
-      // Wysyłka e-maila przez EmailJS
-      emailjs.send("service_om6pfoz", "template_knk9bj9", formData, "VFlTg8z-1RIfLjz-R")
-        .then(function (response) {
+      // Wysyłka e-maila przez EmailJS (v4 – bez userId tutaj!)
+      emailjs.send("service_om6pfoz", "template_knk9bj9", formData)
+        .then((response) => {
           console.log("E-mail wysłany!", response.status, response.text);
-        }, function (error) {
+        })
+        .catch((error) => {
           console.error("Błąd e-maila:", error);
         });
     })
