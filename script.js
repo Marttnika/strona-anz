@@ -25,7 +25,7 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
           console.error("Błąd e-maila:", error);
         });
       // Wysyłka auto-reply do użytkownika
-emailjs.send("service_om6pfoz", "template_autoreply", formData)
+emailjs.send("service_om6pfoz", "template_qpf9ipi", formData)
   .then(function (response) {
     console.log("Auto-reply wysłany!", response.status, response.text);
   }, function (error) {
