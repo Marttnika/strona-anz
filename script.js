@@ -1,5 +1,10 @@
 document.getElementById("contactForm").addEventListener("submit", function (e) {
   e.preventDefault();
+const recaptchaResponse = grecaptcha.getResponse();
+if (!recaptchaResponse) {
+  alert("Potwierdź, że nie jesteś robotem.");
+  return;
+}
 
   const formData = {
     name: document.querySelector('input[name="name"]').value,
