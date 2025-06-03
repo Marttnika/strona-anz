@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("https://submitform-api.azurewebsites.net/api/getSubmissions?code=dg2lIz8EUmpWLQQCcHO_sY1edc_jF0EYvqhOFDkdp_e8AzFuZIc7gA==")
     .then(response => response.json())
     .then(data => {
+      // Sortowanie zgłoszeń od najnowszego do najstarszego
+      data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
       data.forEach(entry => {
         const row = document.createElement("tr");
 
