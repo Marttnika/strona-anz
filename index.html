@@ -4,14 +4,6 @@
   <meta charset="UTF-8">
   <title>ANZ PODATKi</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
-    (function(){
-      emailjs.init("VFlTg8z-1RIfLjz-R"); // ← tutaj wstaw swój USER_ID z EmailJS
-    })();
-  </script>
 </head>
 <body>
   <header>
@@ -32,6 +24,20 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <!-- EmailJS SDK v4 oraz Twój skrypt -->
+  <script type="module">
+    import emailjs from 'https://cdn.emailjs.com/dist/email.min.mjs';
+
+    // Ustawienie globalne (aby można było korzystać w script.js, jeśli potrzeba)
+    window.emailjs = emailjs;
+
+    // Inicjalizacja EmailJS z Twoim User ID
+    emailjs.init("VFlTg8z-1RIfLjz-R");
+
+    // Opcjonalnie: możesz tu również zaimportować i uruchomić kod formularza, ale jeśli jest w script.js – nie trzeba.
+  </script>
+
+  <!-- Twój główny skrypt do obsługi formularza -->
+  <script src="script.js" type="module"></script>
 </body>
 </html>
