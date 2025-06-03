@@ -24,6 +24,14 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
         }, function (error) {
           console.error("Błąd e-maila:", error);
         });
+      // Wysyłka auto-reply do użytkownika
+emailjs.send("service_om6pfoz", "template_autoreply", formData)
+  .then(function (response) {
+    console.log("Auto-reply wysłany!", response.status, response.text);
+  }, function (error) {
+    console.error("Błąd auto-reply:", error);
+  });
+
     })
     .catch(error => {
       console.error("Błąd:", error);
