@@ -7,6 +7,7 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
     message: document.querySelector('textarea[name="message"]').value
   };
 
+  // Wysyłka danych do Azure Function
   fetch("https://submitform-api.azurewebsites.net/api/submitForm?code=nNq8JE9yb4MFDorPYAPaBta9XFfu7wMiRxNZfVx_bV7DAzFu_ssLIg==", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -15,6 +16,14 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
     .then(response => response.json())
     .then(data => {
       alert("Dziękujemy! Twoja wiadomość została wysłana.");
+
+      // Wysyłka e-maila przez EmailJS
+      emailjs.send("service_om6pfoz", "template_knk9bj9", formData, "VFlTg8z-1RIfLjz-R")
+        .then(function (response) {
+          console.log("E-mail wysłany!", response.status, response.text);
+        }, function (error) {
+          console.error("Błąd e-maila:", error);
+        });
     })
     .catch(error => {
       console.error("Błąd:", error);
