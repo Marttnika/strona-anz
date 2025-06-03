@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>ANZ PODATKi</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
   <!-- EmailJS SDK v4 przez jsDelivr (zalecane przez EmailJS) -->
   <script type="text/javascript"
@@ -30,6 +32,8 @@
         <label>Imię i nazwisko:<br><input type="text" name="name" required></label><br>
         <label>Email:<br><input type="email" name="email" required></label><br>
         <label>Wiadomość:<br><textarea name="message" required></textarea></label><br>
+        <div class="g-recaptcha" data-sitekey="6LetQlQrAAAAANPmloHMLk0YdOi1SYaLbe3BsK36"></div>
+
         <button type="submit">Wyślij</button>
       </form>
       <p id="status"></p>
