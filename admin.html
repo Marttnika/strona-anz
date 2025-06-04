@@ -4,26 +4,62 @@
   <meta charset="UTF-8">
   <title>Panel zgłoszeń – ANZ PODATKi</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      cursor: pointer;
+    }
+    th.sorted-asc::after {
+      content: " 🔼";
+    }
+    th.sorted-desc::after {
+      content: " 🔽";
+    }
+    #logout {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Panel zgłoszeń</h1>
-  </header>
-
   <main>
-    <button id="exportBtn">Eksportuj do CSV</button>
+    <h1 style="text-align: center;">Panel zgłoszeń – ANZ PODATKi</h1>
 
+    <!-- 🔒 Przycisk wylogowania -->
+    <div id="logout">
+      <a href="/.auth/logout?post_logout_redirect_uri=/" style="text-decoration: none; color: #fff; background-color: #d9534f; padding: 8px 16px; border-radius: 5px;">
+        🚪 Wyloguj
+      </a>
+    </div>
+
+    <!-- 📋 Tabela zgłoszeń -->
     <table id="submissionsTable">
       <thead>
         <tr>
-          <th>Imię i nazwisko</th>
-          <th>Email</th>
-          <th>Wiadomość</th>
-          <th>Data</th>
+          <th data-column="name">Imię i nazwisko</th>
+          <th data-column="email">Email</th>
+          <th data-column="message">Wiadomość</th>
+          <th data-column="timestamp">Data</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <tr><td colspan="4">Ładowanie danych...</td></tr>
+      </tbody>
     </table>
+
+    <!-- ⬇️ Przycisk eksportu -->
+    <p style="text-align: center; margin-top: 20px;">
+      <button onclick="exportToCSV()">📁 Eksportuj do CSV</button>
+    </p>
   </main>
 
   <script src="admin.js"></script>
