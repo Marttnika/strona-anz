@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Who am I?</title>
+</head>
+<body>
+  <h1>Dane logowania</h1>
+  <pre id="output">Ładowanie danych...</pre>
+
+  <script>
+    fetch("/.auth/me")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        document.getElementById("output").textContent = "Błąd: " + err;
+      });
+  </script>
+</body>
+</html>
