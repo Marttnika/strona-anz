@@ -46,21 +46,25 @@
   </main>
 
   <script>
-    function checkPassword() {
-      const correctPassword = "secureAdmin2024"; // ← zmień na swoje hasło
-      const input = document.getElementById("adminPassword").value;
+  function checkPassword() {
+    const correctPassword = "secure"; // ← tu wpisz swoje hasło
+    const input = document.getElementById("adminPassword").value;
 
-      if (input === correctPassword) {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("adminPanel").style.display = "block";
+    if (input === correctPassword) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("adminPanel").style.display = "block";
 
-        const script = document.createElement("script");
-        script.src = "admin.js";
-        document.body.appendChild(script);
-      } else {
-        document.getElementById("loginError").textContent = "Niepoprawne hasło.";
-      }
+      // Dynamicznie załaduj plik admin.js po poprawnym logowaniu
+      const script = document.createElement("script");
+      script.src = "./admin.js"; // upewnij się, że admin.js jest w tym samym folderze co admin.html
+      script.onload = () => console.log("admin.js załadowany");
+      script.onerror = () => console.error("❌ Nie można załadować admin.js");
+      document.body.appendChild(script);
+    } else {
+      document.getElementById("loginError").textContent = "Niepoprawne hasło.";
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
