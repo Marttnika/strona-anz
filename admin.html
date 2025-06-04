@@ -1,42 +1,17 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <title>Panel zgłoszeń – ANZ PODATKi</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    #loginForm {
-      text-align: center;
-      margin-top: 50px;
-    }
-
-    #adminPanel {
-      display: none;
-    }
-  </style>
-</head>
 <body>
   <header>
     <h1>Panel zgłoszeń</h1>
+    <h1>Formularz kontaktowy ANZ PODATKi</h1>
   </header>
 
-  <!-- Formularz logowania -->
-  <section id="loginForm">
-    <p>Wprowadź hasło dostępu:</p>
-    <input type="password" id="adminPassword" placeholder="Hasło">
-    <button onclick="checkPassword()">Zaloguj</button>
-    <p id="loginError" style="color:red;"></p>
-  </section>
-
-  <!-- Panel admina (początkowo ukryty) -->
-  <main id="adminPanel">
+  <main>
     <button id="exportBtn">Eksportuj do CSV</button>
 
     <table id="submissionsTable">
       <thead>
         <tr>
           <th>Imię i nazwisko</th>
-          <th>Email</th>
+          <th>Email</th>More actions
           <th>Wiadomość</th>
           <th>Data</th>
         </tr>
@@ -45,26 +20,6 @@
     </table>
   </main>
 
-  <script>
-  function checkPassword() {
-    const correctPassword = "secure"; // ← tu wpisz swoje hasło
-    const input = document.getElementById("adminPassword").value;
-
-    if (input === correctPassword) {
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("adminPanel").style.display = "block";
-
-      // Dynamicznie załaduj plik admin.js po poprawnym logowaniu
-      const script = document.createElement("script");
-      script.src = "./admin.js"; // upewnij się, że admin.js jest w tym samym folderze co admin.html
-      script.onload = () => console.log("admin.js załadowany");
-      script.onerror = () => console.error("❌ Nie można załadować admin.js");
-      document.body.appendChild(script);
-    } else {
-      document.getElementById("loginError").textContent = "Niepoprawne hasło.";
-    }
-  }
-</script>
-
+  <script src="admin.js"></script>
 </body>
 </html>
