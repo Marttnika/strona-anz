@@ -4,14 +4,32 @@
   <meta charset="UTF-8">
   <title>Panel zgłoszeń – ANZ PODATKi</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    #loginForm {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #adminPanel {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>Panel zgłoszeń</h1>
-    <h1>Formularz kontaktowy ANZ PODATKi</h1>
   </header>
 
-  <main>
+  <!-- Formularz logowania -->
+  <section id="loginForm">
+    <p>Wprowadź hasło dostępu:</p>
+    <input type="password" id="adminPassword" placeholder="Hasło">
+    <button onclick="checkPassword()">Zaloguj</button>
+    <p id="loginError" style="color:red;"></p>
+  </section>
+
+  <!-- Panel admina (początkowo ukryty) -->
+  <main id="adminPanel">
     <button id="exportBtn">Eksportuj do CSV</button>
 
     <table id="submissionsTable">
@@ -27,6 +45,22 @@
     </table>
   </main>
 
-  <script src="admin.js"></script>
+  <script>
+    function checkPassword() {
+      const correctPassword = "secureAdmin2024"; // ← zmień na swoje hasło
+      const input = document.getElementById("adminPassword").value;
+
+      if (input === correctPassword) {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+
+        const script = document.createElement("script");
+        script.src = "admin.js";
+        document.body.appendChild(script);
+      } else {
+        document.getElementById("loginError").textContent = "Niepoprawne hasło.";
+      }
+    }
+  </script>
 </body>
 </html>
