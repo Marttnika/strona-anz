@@ -20,6 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  function updateHeaderArrows() {
+    tableHeaders.forEach((th, index) => {
+      const columnMap = ["name", "email", "message", "timestamp"];
+      const column = columnMap[index];
+      if (column === currentSortColumn) {
+        th.textContent = th.dataset.base + (sortAscending ? " ⬆️" : " ⬇️");
+      } else {
+        th.textContent = th.dataset.base;
+      }
+    });
+  }
+
   function sortData(column) {
     if (currentSortColumn === column) {
       sortAscending = !sortAscending;
@@ -48,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     renderTable(submissions);
+    updateHeaderArrows();
   }
 
   function exportToCSV(data) {
@@ -75,8 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
     URL.revokeObjectURL(url);
   }
 
+  const columnMap = ["name", "email", "message", "timestamp"];
   tableHeaders.forEach((th, index) => {
-    const columnMap = ["name", "email", "message", "timestamp"];
+    th.dataset.base = th.textContent.trim();
     th.addEventListener("click", () => {
       sortData(columnMap[index]);
     });
