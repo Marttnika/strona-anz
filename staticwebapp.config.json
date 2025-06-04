@@ -1,0 +1,11 @@
+{
+  "routes": [
+    {
+      "route": "/admin.html",
+      "allowedRoles": ["admin"]
+    }
+  ],
+  "auth": {
+    "rolesSource": "github"
+  }
+}
