@@ -77,8 +77,12 @@ document.addEventListener("DOMContentLoaded", function () {
       ]);
     });
 
-    const csvContent = csvRows.map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv" });
+    // Dodaj znak BOM (UTF-8) dla poprawnego wyświetlania polskich znaków w Excelu
+    const csvContent = "\uFEFF" + csvRows.map(row =>
+      row.map(cell => `"${cell}"`).join(",")
+    ).join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
