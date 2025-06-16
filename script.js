@@ -34,7 +34,7 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
   const formData = { name, email, message };
 
   // Wysyłka do Azure Function
-  fetch("https://submitform-api.azurewebsites.net/api/submitForm?code=https://submitform-api.azurewebsites.net/api/submitForm?code=6LmwEVmNnuGrXyQWAGbltHP0r9v0Ych1odeG1crQhCG_AzFuaGzsdw==", {
+  fetch("https://submitform-api.azurewebsites.net/api/submitForm?code=6LmwEVmNnuGrXyQWAGbltHP0r9v0Ych1odeG1crQhCG_AzFuaGzsdw==", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData)
