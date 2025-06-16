@@ -1,74 +1,52 @@
-document.getElementById("contactForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-  if (window.appInsights) {
-  appInsights.trackEvent({ name: "submit_click" });
-}
+const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
+module.exports = async function (context, req) {
+    const { name, email, message } = req.body;
 
-  const name = document.querySelector('input[name="name"]').value.trim();
-  const email = document.querySelector('input[name="email"]').value.trim();
-  const message = document.querySelector('textarea[name="message"]').value.trim();
-  const recaptchaResponse = grecaptcha.getResponse();
+    if (!name || !email || !message) {
+        context.res = {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+            body: { error: "Brak wymaganych danych." }
+        };
+        return;
+    }
 
-  // Walidacja pól
-  if (name.length < 3) {
-    alert("Podaj imię i nazwisko (minimum 3 znaki).");
-    return;
-  }
+    // Dane dostępowe do Storage Account
+    const account = "anzformstorage";
+    const accountKey = "MSleWhS65v4S/AIJdN011/O8tEWMRsQGeZH3PuR7KUj/0m5Y8dHPikaaHW4TGuzpoSCinO3sHBTq+AStfMMYQQ==";
+    const tableName = "FormSubmissions";
 
-  if (!validateEmail(email)) {
-    alert("Podaj poprawny adres e-mail.");
-    return;
-  }
+    const credential = new AzureNamedKeyCredential(account, accountKey);
+    const client = new TableClient(
+        `https://${account}.table.core.windows.net`,
+        tableName,
+        credential
+    );
 
-  if (message.length < 10) {
-    alert("Wiadomość powinna mieć minimum 10 znaków.");
-    return;
-  }
+    const entity = {
+        partitionKey: "Kontakt",
+        rowKey: Date.now().toString(),
+        name,
+        email,
+        message,
+        timestamp: new Date().toISOString()
+    };
 
-  if (!recaptchaResponse) {
-    alert("Potwierdź, że nie jesteś robotem.");
-    return;
-  }
+    try {
+        await client.createEntity(entity);
 
-  const formData = { name, email, message };
-
-  // Wysyłka do Azure Function
-  fetch("https://submitform-api.azurewebsites.net/api/submitForm?code=nNq8JE9yb4MFDorPYAPaBta9XFfu7wMiRxNZfVx_bV7DAzFu_ssLIg==", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData)
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert("Dziękujemy! Twoja wiadomość została wysłana.");
-
-      // Email do biura
-      emailjs.send("service_om6pfoz", "template_knk9bj9", formData)
-        .then(function (response) {
-          console.log("E-mail wysłany!", response.status, response.text);
-        })
-        .catch(function (error) {
-          console.error("Błąd e-maila:", error);
-        });
-
-      // Auto-reply do użytkownika
-      emailjs.send("service_om6pfoz", "template_qpf9ipi", formData)
-        .then(function (response) {
-          console.log("Auto-reply wysłany!", response.status, response.text);
-        })
-        .catch(function (error) {
-          console.error("Błąd auto-reply:", error);
-        });
-    })
-    .catch(error => {
-      console.error("Błąd:", error);
-      alert("Wystąpił problem z wysyłką formularza.");
-    });
-});
-
-// Pomocnicza funkcja walidująca adres e-mail
-function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email.toLowerCase());
-}
+        context.res = {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+            body: { message: "Dane zostały zapisane pomyślnie." }
+        };
+    } catch (error) {
+        context.log("Błąd zapisu:", error);
+        context.res = {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+            body: { error: "Błąd zapisu danych do tabeli." }
+        };
+    }
+};
