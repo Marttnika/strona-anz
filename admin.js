@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
     exportToCSV(submissions);
   });
 
-  fetch("https://submitform-api.azurewebsites.net/api/getSubmissions?code=dg2lIz8EUmpWLQQCcHO_sY1edc_jF0EYvqhOFDkdp_e8AzFuZIc7gA==")
+  fetch("https://submitform-api.azurewebsites.net/api/getSubmissions?code=1V-T6-P2z-QXEfTD6428YatctBfH6bROGxsusLJsgS1_AzFuRXuz5A==")
     .then(response => response.json())
     .then(data => {
       submissions = data;
